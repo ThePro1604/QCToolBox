@@ -25,14 +25,9 @@
 
 .box {
     display: inline-block;
-<<<<<<< HEAD
-
-
-=======
     margin:3px;
     align-items: center;
     justify-content: center;
->>>>>>> 84b359e (Initial commit)
 }
 
 .box:hover {
@@ -41,13 +36,6 @@
     cursor: pointer;
 }
 
-<<<<<<< HEAD
-.box a{
-    justify-content: center;
-}
-
-=======
->>>>>>> 84b359e (Initial commit)
 .box p {
     text-align: center;
     -webkit-text-stroke-width: 0.8px;
@@ -123,8 +111,7 @@ header img{
     font-size: 26px;
     font-weight: bold;
 }
-<<<<<<< HEAD
-=======
+
 
 footer {
     background-image: radial-gradient(circle at center, #93faf6, #094bdb);
@@ -140,4 +127,3 @@ footer h3 {
     -webkit-text-stroke-color: black;
     font-family:Comic Sans MS;
 }
->>>>>>> 84b359e (Initial commit)

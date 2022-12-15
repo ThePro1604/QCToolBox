@@ -1,5 +1,4 @@
 import os.path
-import pandas
 from xlsx2csv import Xlsx2csv
 from io import StringIO
 import pandas as pd

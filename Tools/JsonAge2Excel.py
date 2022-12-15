@@ -1,140 +1,134 @@
 import csv
 import os
-<<<<<<< HEAD
-import xml.etree.ElementTree as ET
 import PySimpleGUI as sg
 
-from lxml import etree
-=======
-import PySimpleGUI as sg
+def ToolRun_JsonAge2Excel():
+    def JsonAge2Excel(folder, filetype):
+        # folder = r"N:\Images\Shahaf\PycharmTest\Test"
 
->>>>>>> 84b359e (Initial commit)
-def JsonAge2Excel(folder, filetype):
-    # folder = r"N:\Images\Shahaf\PycharmTest\Test"
+        data_list = []
 
-    data_list = []
+        def get_list_of_json_files():
+            directory = []
+            filename = []
+            list_of_files = []
+            for (root, dirs, file) in os.walk(folder):
+                for f in file:
+                    directory.append(root)
+                    filename.append(f)
+                    if "json" in f:
+                        # print(f)
+                        list_of_files.append(os.path.join(root, f))
+            return list_of_files
 
-    def get_list_of_json_files():
-        directory = []
-        filename = []
-        list_of_files = []
-        for (root, dirs, file) in os.walk(folder):
-            for f in file:
-                directory.append(root)
-                filename.append(f)
-                if "json" in f:
-                    # print(f)
-                    list_of_files.append(os.path.join(root, f))
-        return list_of_files
+        def create_list_from_json(XMLfile):
+            data_list = []  # create an empty list
 
-    def create_list_from_json(XMLfile):
-        data_list = []  # create an empty list
+            if os.path.getsize(XMLfile) != 0:
+                print(XMLfile)
 
-        if os.path.getsize(XMLfile) != 0:
-            print(XMLfile)
+                text_file = open(XMLfile, encoding="utf8")
+                data = text_file.read()
+                text_file.close()
+                age_verification = data[data.rfind("AgeVerificationReport"):data.rfind("AgeEstimationCompletionStatus")]
+                # data_list.append(XMLfile[XMLfile.rfind("\\") + 1:XMLfile.index(".")])
 
-            text_file = open(XMLfile, encoding="utf8")
-            data = text_file.read()
-            text_file.close()
-            age_verification = data[data.rfind("AgeVerificationReport"):data.rfind("AgeEstimationCompletionStatus")]
-            # data_list.append(XMLfile[XMLfile.rfind("\\") + 1:XMLfile.index(".")])
-
-            if "DocumentId" in data:
-                temp = data[data.find("DocumentId"):data.find("DocumentScope")]
-                data_list.append(temp[temp.find(": ")+3:temp.find(",")-1])
-            else:
-                data_list.append("")
+                if "DocumentId" in data:
+                    temp = data[data.find("DocumentId"):data.find("DocumentScope")]
+                    data_list.append(temp[temp.find(": ")+3:temp.find(",")-1])
+                else:
+                    data_list.append("")
 
 
-            if "AgeEstimation" in age_verification:
-                temp = age_verification[age_verification.find("AgeEstimation"):age_verification.find("AgeEstimationCompletionStatus")]
-                data_list.append(temp[temp.find(": ")+1:temp.find(",")])
-            else:
-                data_list.append("")
+                if "AgeEstimation" in age_verification:
+                    temp = age_verification[age_verification.find("AgeEstimation"):age_verification.find("AgeEstimationCompletionStatus")]
+                    data_list.append(temp[temp.find(": ")+1:temp.find(",")])
+                else:
+                    data_list.append("")
 
-        #path
-        data_list.append(XMLfile[:XMLfile.rfind("\\")])
-        return data_list
+            #path
+            data_list.append(XMLfile[:XMLfile.rfind("\\")])
+            return data_list
 
-    def write_csv():
-        nested_list_of_files = []
-        list_of_files = get_list_of_json_files()
-        first_row = []
-        first_row.append('DocumentID')
-        first_row.append('Age')
-        first_row.append('Path')
+        def write_csv():
+            nested_list_of_files = []
+            list_of_files = get_list_of_json_files()
+            first_row = []
+            first_row.append('DocumentID')
+            first_row.append('Age')
+            first_row.append('Path')
 
 
 
-        with open(folder + '\output.csv', "a", newline='') as c:
-            writer = csv.writer(c)
-            writer.writerow(first_row)
-
-        for file in list_of_files:
-            row = create_list_from_json(file)  # create the row to be added to csv for each file (json-file)
             with open(folder + '\output.csv', "a", newline='') as c:
-                try:
-                    writer = csv.writer(c)
-                    writer.writerow(row)
-                except:
-                    continue
-                # writer = csv.writer(c)
-                # writer.writerow(row)
-            c.close()
-    write_csv()
+                writer = csv.writer(c)
+                writer.writerow(first_row)
 
-    layout_popup = [
-        [sg.Text("Done!")],
-        [sg.Button('Close')]
+            for file in list_of_files:
+                row = create_list_from_json(file)  # create the row to be added to csv for each file (json-file)
+                with open(folder + '\output.csv', "a", newline='') as c:
+                    try:
+                        writer = csv.writer(c)
+                        writer.writerow(row)
+                    except:
+                        continue
+                    # writer = csv.writer(c)
+                    # writer.writerow(row)
+                c.close()
+        write_csv()
+
+        layout_popup = [
+            [sg.Text("Done!")],
+            [sg.Button('Close')]
+        ]
+        popup = sg.Window("Complete", layout_popup)
+
+        while True:
+            event, values = popup.read()
+            if event == "Close" or event == sg.WIN_CLOSED:
+                break
+        popup.close()
+
+    top = [
+        [sg.Text("Source Folder")],
+        [sg.FolderBrowse(key="folder_name"), sg.InputText(key='myfolder')],
     ]
-    popup = sg.Window("Complete", layout_popup)
+
+    middle = [
+        [sg.Text("File Type (txt, json, xml)"), sg.InputText(key='filetype', size=(5, 1))],
+    ]
+
+    buttons = [
+        [sg.Button('Start'), sg.Button('Close')],
+    ]
+
+    copyright = [
+        [sg.Text("Ⓒ By Shahaf Stossel", text_color="#A20909")],
+    ]
+
+    description = [
+        [sg.Text("Extracts the estimated age from json files to excel ")],
+    ]
+
+    layout = [
+        [sg.Push(), sg.Column(description), sg.Push()],
+        [sg.HSeparator()],
+        [
+            sg.Column(top, vertical_alignment="top", key='-COL1-'),
+        ],
+        [sg.Push(), sg.Column(middle), sg.Push()],
+        [sg.Push(), sg.Column(buttons), sg.Push()],
+        [sg.Push(), sg.Column(copyright), sg.Push()],
+    ]
+
+    window = sg.Window("JsonAge2Excel", layout)
 
     while True:
-        event, values = popup.read()
-        if event == "Close" or event == sg.WIN_CLOSED:
+        event, values = window.read()
+        if event == "Start":
+            JsonAge2Excel(values['myfolder'], values['filetype'])
+        if event == sg.WIN_CLOSED or event == "Close":
             break
-    popup.close()
 
-top = [
-    [sg.Text("Source Folder")],
-    [sg.FolderBrowse(key="folder_name"), sg.InputText(key='myfolder')],
-]
-
-middle = [
-    [sg.Text("File Type (txt, json, xml)"), sg.InputText(key='filetype', size=(5, 1))],
-]
-
-buttons = [
-    [sg.Button('Start'), sg.Button('Close')],
-]
-
-copyright = [
-    [sg.Text("Ⓒ By Shahaf Stossel", text_color="#A20909")],
-]
-
-description = [
-    [sg.Text("Extracts the estimated age from json files to excel ")],
-]
-
-layout = [
-    [sg.Push(), sg.Column(description), sg.Push()],
-    [sg.HSeparator()],
-    [
-        sg.Column(top, vertical_alignment="top", key='-COL1-'),
-    ],
-    [sg.Push(), sg.Column(middle), sg.Push()],
-    [sg.Push(), sg.Column(buttons), sg.Push()],
-    [sg.Push(), sg.Column(copyright), sg.Push()],
-]
-
-window = sg.Window("JsonAge2Excel", layout)
-
-while True:
-    event, values = window.read()
-    if event == "Start":
-        JsonAge2Excel(values['myfolder'], values['filetype'])
-    if event == sg.WIN_CLOSED or event == "Close":
-        break
-
-window.close()
+    window.close()
 
