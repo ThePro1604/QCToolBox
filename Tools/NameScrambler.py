@@ -14,8 +14,10 @@ def ToolRun_scrambler():
             dst = f"{str(name)}_page0.jpg"
             src = f"{folder}/{filename}"  # foldername/filename, if .py file is outside folder
             dst = f"{folder}/{dst}"
-
-            os.rename(src, dst)
+            try:
+                os.rename(src, dst)
+            except:
+                continue
 
         layout_popup = [
             [sg.Text("Done!")],

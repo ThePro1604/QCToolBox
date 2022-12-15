@@ -21,26 +21,32 @@ def ToolRun_PDF2JPG():
                 list_of_files_nested = get_list_of_json_files_nested(file)
                 for nested_file in list_of_files_nested:
                     if ".pdf" in nested_file:
-                        doc = fitz.open(folder + "/" + nested_folder + "/" + nested_file)  # open document
-                        i = 0
-                        for page in doc:
-                            name = nested_file[0:nested_file.lower().index("page")]
-                            pix = page.get_pixmap()  # render page to an image
-                            pix.save(f"{folder}/{nested_folder}/{name}page{i}.jpg", 'JPEG')
-                            i += 1
-                        doc.close()
-                        os.remove(folder + "/" + nested_folder + "/" + nested_file)
+                        try:
+                            doc = fitz.open(folder + "/" + nested_folder + "/" + nested_file)  # open document
+                            i = 0
+                            for page in doc:
+                                name = nested_file[0:nested_file.lower().index("page")]
+                                pix = page.get_pixmap()  # render page to an image
+                                pix.save(f"{folder}/{nested_folder}/{name}page{i}.jpg", 'JPEG')
+                                i += 1
+                            doc.close()
+                            os.remove(folder + "/" + nested_folder + "/" + nested_file)
+                        except:
+                            continue
 
             elif ".pdf" in file:
-                doc = fitz.open(folder + "/" + file)  # open document
-                i = 0
-                for page in doc:
-                    name = file[0:file.lower().index("page")]
-                    pix = page.get_pixmap()  # render page to an image
-                    pix.save(f"{folder}/{name}page{i}.jpg", 'JPEG')
-                    i += 1
-                doc.close()
-                os.remove(folder + "/" + file)
+                try:
+                    doc = fitz.open(folder + "/" + file)  # open document
+                    i = 0
+                    for page in doc:
+                        name = file[0:file.lower().index("page")]
+                        pix = page.get_pixmap()  # render page to an image
+                        pix.save(f"{folder}/{name}page{i}.jpg", 'JPEG')
+                        i += 1
+                    doc.close()
+                    os.remove(folder + "/" + file)
+                except:
+                    continue
 
         layout_popup = [
             [sg.Text("Done!")],

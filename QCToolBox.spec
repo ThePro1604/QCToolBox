@@ -9,11 +9,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[('N:\\Images\\Shahaf\\Tools\\QCToolBox\\venv\\lib\\site-packages\\eel\\eel.js', 'eel'), ('web', 'web')],
-<<<<<<< HEAD
-    hiddenimports=['bottle_websocket'],
-=======
     hiddenimports=['bottle_websocket', 'pyi_splash'],
->>>>>>> 84b359e (Initial commit)
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -24,8 +20,6 @@ a = Analysis(
     noarchive=False,
 )
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
-<<<<<<< HEAD
-=======
 splash = Splash(
     'N:\\Images\\Shahaf\\Tools\\QCToolBox\\web\\assets\\loadingicon2.png',
     binaries=a.binaries,
@@ -35,15 +29,11 @@ splash = Splash(
     minify_script=True,
     always_on_top=True,
 )
->>>>>>> 84b359e (Initial commit)
 
 exe = EXE(
     pyz,
     a.scripts,
-<<<<<<< HEAD
-=======
     splash,
->>>>>>> 84b359e (Initial commit)
     [],
     exclude_binaries=True,
     name='QCToolBox',
@@ -64,10 +54,7 @@ coll = COLLECT(
     a.binaries,
     a.zipfiles,
     a.datas,
-<<<<<<< HEAD
-=======
     splash.binaries,
->>>>>>> 84b359e (Initial commit)
     strip=False,
     upx=True,
     upx_exclude=[],
