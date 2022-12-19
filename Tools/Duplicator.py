@@ -84,7 +84,7 @@ def ToolRun_Duplicator():
         event, values = window.read()
         # if event == "file_name":
         #     values['myfile'] = values['file_name']
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             Duplicator(values['myfolder'], values['file_name'], values['num'])
         if event == sg.WIN_CLOSED or event == "Close":
             break

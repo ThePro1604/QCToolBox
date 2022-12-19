@@ -111,7 +111,7 @@ def ToolRun_ExcelCells2Files():
 
     while True:
         event, values = window.read()
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             ExcelCells2Files(values['myfolder'], values['file_name'], values['document_id'], values['cell'])
         if event == sg.WIN_CLOSED or event == "Close":
             break

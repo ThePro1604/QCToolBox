@@ -145,7 +145,7 @@ def ToolRun_Jason2Excel():
 
     while True:
         event, values = window.read()
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             Jason2Excel(values['myfolder'])
         if event == sg.WIN_CLOSED or event == "Close":
             break

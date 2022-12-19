@@ -25,10 +25,16 @@ def ToolRun_PDF2JPG():
                             doc = fitz.open(folder + "/" + nested_folder + "/" + nested_file)  # open document
                             i = 0
                             for page in doc:
-                                name = nested_file[0:nested_file.lower().index("page")]
-                                pix = page.get_pixmap()  # render page to an image
-                                pix.save(f"{folder}/{nested_folder}/{name}page{i}.jpg", 'JPEG')
-                                i += 1
+                                if "page" in nested_file:
+                                    name = nested_file[0:nested_file.lower().index("page")]
+                                    pix = page.get_pixmap()  # render page to an image
+                                    pix.save(f"{folder}/{nested_folder}/{name}page{i}.jpeg", 'JPEG')
+                                    i += 1
+                                if "supp" in nested_file:
+                                    name = nested_file[0:nested_file.lower().index("supp")]
+                                    pix = page.get_pixmap()  # render page to an image
+                                    pix.save(f"{folder}/{nested_folder}/{name}supp{i}.jpeg", 'JPEG')
+                                    i += 1
                             doc.close()
                             os.remove(folder + "/" + nested_folder + "/" + nested_file)
                         except:
@@ -39,10 +45,16 @@ def ToolRun_PDF2JPG():
                     doc = fitz.open(folder + "/" + file)  # open document
                     i = 0
                     for page in doc:
-                        name = file[0:file.lower().index("page")]
-                        pix = page.get_pixmap()  # render page to an image
-                        pix.save(f"{folder}/{name}page{i}.jpg", 'JPEG')
-                        i += 1
+                        if "page" in file:
+                            name = file[0:file.lower().index("page")]
+                            pix = page.get_pixmap()  # render page to an image
+                            pix.save(f"{folder}/{name}page{i}.jpeg", 'JPEG')
+                            i += 1
+                        if "supp" in file:
+                            name = file[0:file.lower().index("supp")]
+                            pix = page.get_pixmap()  # render page to an image
+                            pix.save(f"{folder}/{name}supp{i}.jpeg", 'JPEG')
+                            i += 1
                     doc.close()
                     os.remove(folder + "/" + file)
                 except:
@@ -91,9 +103,13 @@ def ToolRun_PDF2JPG():
 
     while True:
         event, values = window.read()
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             PDF2JPG(values['myfolder'])
         if event == sg.WIN_CLOSED or event == "Close":
             break
 
     window.close()
+
+
+# python -m eel main.py web --onedir --noconsole -n=QCToolBox --icon="N:\Images\Shahaf\Tools\QCToolBox\web\assets\tabicon.png" --splash="N:\Images\Shahaf\Tools\QCToolBox\web\assets\loadingic
+# on2.png" --hidden-import=pyi_splash

@@ -27,12 +27,12 @@ def JsonFieldExtraction(folder):
     # Define a recursive function to extract the values and keys
     def extract_values(data, result, key=None):
         with open(data[0]) as json_file:
-        # Load the JSON data
-        file = json.load(json_file)
+            # Load the JSON data
+            file = json.load(json_file)
 
         with open(data) as json_file:
-        # Load the JSON data
-        data = json.load(json_file)
+            # Load the JSON data
+            data = json.load(json_file)
 
         # If the data is a dictionary, extract the values and keys from its keys and values
         if isinstance(data, dict):
@@ -133,7 +133,7 @@ window = sg.Window("JsonAge2Excel", layout)
 
 while True:
     event, values = window.read()
-    if event == "Start":
+    if event == "Start" and len(values['myfolder']) > 1:
         JsonFieldExtraction(values['myfolder'])
     if event == sg.WIN_CLOSED or event == "Close":
         break

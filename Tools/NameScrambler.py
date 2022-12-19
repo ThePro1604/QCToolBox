@@ -64,7 +64,7 @@ def ToolRun_scrambler():
 
     while True:
         event, values = window.read()
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             scrambler(values['myfolder'])
         if event == sg.WIN_CLOSED or event == "Close":
             break

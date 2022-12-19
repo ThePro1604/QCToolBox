@@ -213,7 +213,7 @@ def ToolRun_IDnJsonResults2Excel():
 
     while True:
         event, values = window.read()
-        if event == "Start":
+        if event == "Start" and len(values['myfolder']) > 1:
             IDnJsonResults2Excel(values['myfolder'], values['filetype'])
         if event == sg.WIN_CLOSED or event == "Close":
             break
